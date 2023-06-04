@@ -4,7 +4,7 @@ import git.monthly.reports.domain.entities.GitUserMonthlyReport;
 
 import java.util.List;
 
-public interface orgMonthlyReportRepository {
+public interface OrgMonthlyReportRepository {
     boolean findOrgMontlyReport(String orgName, String date);
     List<GitUserMonthlyReport> getOrgMonthlyReport(String orgName, String date);
     void  saveOrgMonthlyReport(List<GitUserMonthlyReport> orgMonthlyReport);
