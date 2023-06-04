@@ -1,4 +1,4 @@
-package git.monthly.reports.springboot;
+package springboot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
