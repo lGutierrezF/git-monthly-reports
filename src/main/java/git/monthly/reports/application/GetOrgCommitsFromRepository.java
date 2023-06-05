@@ -11,7 +11,7 @@ public class GetOrgCommitsFromRepository {
     private static GitCommitRepository gitCommitRepository;
     private static String date;
 
-    public GetOrgCommitsFromRepository(GitOrganization gitOrganization, GitCommitRepository gitCommitRepository,
+    public GetOrgCommitsFromRepository(GitCommitRepository gitCommitRepository, GitOrganization gitOrganization,
                                        String date) {
         this.gitOrganization = gitOrganization;
         this.gitCommitRepository = gitCommitRepository;
@@ -54,13 +54,13 @@ public class GetOrgCommitsFromRepository {
     private List<Commit> getOrgRepoCommits(String repoName){
         var commits = gitCommitRepository.getOrgCommits(gitOrganization.getOrgName(), repoName, date);
         for (Commit commit : commits) {
-            commit.setStats(getOrgCommitStats(commit));
+            commit.setStats(getOrgCommitStats(repoName,commit));
         }
         return commits;
     }
 
-    private CommitStats getOrgCommitStats(Commit commit){
-        return gitCommitRepository.getCommitStats(commit.getSHA());
+    private CommitStats getOrgCommitStats(String repoName, Commit commit){
+        return gitCommitRepository.getCommitStats(gitOrganization.getOrgName(), repoName, commit.getSHA());
     }
 
 }

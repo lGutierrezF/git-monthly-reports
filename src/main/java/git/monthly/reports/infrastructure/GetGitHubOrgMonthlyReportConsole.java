@@ -1,5 +1,6 @@
 package git.monthly.reports.infrastructure;
 
+import git.monthly.reports.application.GetOrgCommitsFromRepository;
 import git.monthly.reports.application.GetOrgReposFromRepository;
 import git.monthly.reports.application.GetOrgTeamGitUsersPRsFromRepository;
 import git.monthly.reports.application.GetOrgTeamsFromRepository;
@@ -16,6 +17,7 @@ public class GetGitHubOrgMonthlyReportConsole implements CommandLineRunner {
     private static  GitHubOrgRepoRepository gitHubOrgRepoRepository = new GitHubOrgRepoRepository(gitHubConnection);
     private static GitHubOrgTeamRepository gitHubOrgTeamRepository = new GitHubOrgTeamRepository(gitHubConnection);
     private static GitHubOrgPRsRepository gitHubOrgPRsRepository = new GitHubOrgPRsRepository(gitHubConnection);
+    private static GitHubOrgCommitRepository gitHubOrgCommitRepository = new GitHubOrgCommitRepository(gitHubConnection);
 
 
     @Override
@@ -26,6 +28,7 @@ public class GetGitHubOrgMonthlyReportConsole implements CommandLineRunner {
         var repos = new GetOrgReposFromRepository(gitHubOrgRepoRepository, organization).getOrgRepos();
         var teams = new GetOrgTeamsFromRepository(gitHubOrgTeamRepository,organization).getOrgTeams();
         teams = new GetOrgTeamGitUsersPRsFromRepository(gitHubOrgPRsRepository,organization,date).getOrgTeamsGitUsersPR();
+        teams = new GetOrgCommitsFromRepository(gitHubOrgCommitRepository,organization,date).getOrgTeamMembersCommits();
 
         System.out.println(repos);
         System.out.println(teams);

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface GitCommitRepository {
     List<Commit> getOrgCommits(String orgName, String repoName, String date);
-    CommitStats getCommitStats(String commitSHA);
+    CommitStats getCommitStats(String orgName, String repoName, String SHA);
 }
