@@ -17,18 +17,19 @@ public class GetOrgTeamsFromRepository {
     }
 
     public List<GitTeam> getOrgTeams(){
+        gitOrganization.setOrgTeams(getOrgTeamsNames(gitOrganization.getOrgName()));
         for (GitTeam team: gitOrganization.getOrgTeams()) {
-            team.setTeamMembers(getTeamMembers(team));
+            team.setTeamMembers(getTeamMembers(gitOrganization.getOrgName(),team));
         }
         return gitOrganization.getOrgTeams();
     }
 
-    public List<GitTeam> getOrgTeamsNames(String orgName){
+    private List<GitTeam> getOrgTeamsNames(String orgName){
         gitOrganization.setOrgTeams(gitTeamRepository.getOrgTeams(orgName));
         return gitOrganization.getOrgTeams();
     }
 
-    private List<GitUser> getTeamMembers(GitTeam team){
-        return  gitTeamRepository.getTeamMembers(team.getTeamName());
+    private List<GitUser> getTeamMembers(String orgName, GitTeam team){
+        return  gitTeamRepository.getTeamMembers(orgName, team.getTeamName());
     }
 }
