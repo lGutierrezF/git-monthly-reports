@@ -12,11 +12,11 @@ import java.util.List;
 
 @Service
 public class GitHubOrgPRsRepository implements GitPRsRepository {
-    private static GitRepositoryClientConnection gitHubConnection;
+        private static GitRepositoryClientConnection gitHubConnection;
 
-    public GitHubOrgPRsRepository(GitRepositoryClientConnection gitHubConnection) {
-        this.gitHubConnection = gitHubConnection;
-    }
+        public GitHubOrgPRsRepository(GitRepositoryClientConnection gitHubConnection) {
+            this.gitHubConnection = gitHubConnection;
+        }
 
     @Override
     public int getUserExecutedPR(String userName, String date) {
