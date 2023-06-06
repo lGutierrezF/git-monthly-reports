@@ -16,7 +16,7 @@ public class GetOrgTeamsFromRepository {
         this.gitOrganization = gitOrganization;
     }
 
-    public List<GitTeam> getOrgTeams(){
+    public List<GitTeam> execute(){
         gitOrganization.setOrgTeams(getOrgTeamsNames(gitOrganization.getOrgName()));
         for (GitTeam team: gitOrganization.getOrgTeams()) {
             team.setTeamMembers(getTeamMembers(gitOrganization.getOrgName(),team));

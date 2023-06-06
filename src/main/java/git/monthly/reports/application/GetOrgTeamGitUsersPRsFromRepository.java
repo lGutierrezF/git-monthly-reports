@@ -20,7 +20,7 @@ public class GetOrgTeamGitUsersPRsFromRepository {
         this.date = date;
     }
 
-    public List<GitTeam> getOrgTeamsGitUsersPR(){
+    public List<GitTeam> execute(){
         for (GitTeam team: gitOrganization.getOrgTeams()) {
             team.setTeamMembers(getOrgTeamGitUsersPR(team).getTeamMembers());
         }

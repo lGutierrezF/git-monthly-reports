@@ -18,7 +18,7 @@ public class GetOrgCommitsFromRepository {
         this.date = date;
     }
 
-    public List<GitTeam> getOrgTeamMembersCommits(){
+    public List<GitTeam> execute(){
         var commits = getOrgReposCommits();
 
         for (GitTeam team: gitOrganization.getOrgTeams()) {

@@ -14,7 +14,7 @@ public class GetOrgReposFromRepository {
         this.gitOrganization = gitOrganization;
     }
 
-    public List<String> getOrgRepos(){
+    public List<String> execute(){
         gitOrganization.setOrgRepoNames(gitRepoRepository.getOrgRepos(gitOrganization.getOrgName()));
         return gitOrganization.getOrgRepoNames();
     }

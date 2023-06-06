@@ -44,11 +44,19 @@ public class GitUser {
         this.comments = comments;
     }
 
+    public int getCommentCount() {
+        return comments.size();
+    }
+
     public List<Commit> getCommits() {
         return commits;
     }
 
     public void setCommits(List<Commit> commits) {
         this.commits = commits;
+    }
+
+    public int getCommitCount() {
+        return commits.size();
     }
 }

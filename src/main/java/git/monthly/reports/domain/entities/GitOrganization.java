@@ -1,5 +1,6 @@
 package git.monthly.reports.domain.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class  GitOrganization {
@@ -9,6 +10,9 @@ public final class  GitOrganization {
     private List<GitUserMonthlyReport> monthlyReports;
 
     public GitOrganization(String orgName) {
+        this.orgRepoNames = new ArrayList<>();
+        this.orgTeams = new ArrayList<>();
+        this.monthlyReports = new ArrayList<>();
         this.orgName = orgName;
     }
 
