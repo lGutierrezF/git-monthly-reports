@@ -27,7 +27,6 @@ public class GetGitOrgMonthlyReportsFromRepository {
     }
 
     private boolean findOrgMontlyReport(){
-        //TODO: If the report exists it returns true
         return orgMonthlyReportRepository.findOrgMontlyReport(gitOrganization.getOrgName(), date);
     }
 }

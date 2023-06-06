@@ -13,7 +13,7 @@ public class SaveGitOrgMonthlyReports {
         this.orgMonthlyReportRepository = orgMonthlyReportRepository;
     }
 
-    public void  saveOrgMonthlyReport(){
+    public void execute(){
         orgMonthlyReportRepository.saveOrgMonthlyReport(gitOrganization.getMonthlyReports());
     }
 }
