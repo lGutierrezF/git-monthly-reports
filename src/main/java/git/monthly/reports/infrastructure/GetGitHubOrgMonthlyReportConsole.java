@@ -27,7 +27,7 @@ public class GetGitHubOrgMonthlyReportConsole implements CommandLineRunner {
     public void run(String... args) throws Exception {
         gitHubConnection = new GitHubClientConnection();
         organization = new GitOrganization("github-stats-test");
-        date = "2023-05";
+        date = "2023-06";
         var reports = new GetGitOrgMonthlyReportsFromRepository(organization,mongoDBReportRepository,date).getOrgMonthlyReport();
         if (reports.isEmpty()) {
             fetchOrganizationMonthlyReportFromAPI();
@@ -45,15 +45,15 @@ public class GetGitHubOrgMonthlyReportConsole implements CommandLineRunner {
     }
 
     private void saveOrganizationMonthlyReportCSV() {
-        MonthConstraintsCalculator calculator = new MonthConstraintsCalculator();
-        if (calculator.isMonthEnded(date)){
         new PrintMonthlyReportCSV(organization, commonsCSVReportGenerator, date).execute();
-        }
-        else System.out.println("Month data is still not final, report won't be saved to MongoDB database.");
     }
 
     private static void saveOrganizationMonthlyReportToMongoDB() {
+        MonthConstraintsCalculator calculator = new MonthConstraintsCalculator();
+        if (calculator.isMonthEnded(date)){
         new SaveGitOrgMonthlyReports(organization, mongoDBReportRepository).execute();
+        }
+       else System.out.println("Month data is still not final, report won't be saved to MongoDB database.");
     }
 
     private static void fetchOrganizationMonthlyReportFromAPI() {

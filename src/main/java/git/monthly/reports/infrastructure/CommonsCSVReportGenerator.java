@@ -31,7 +31,7 @@ public class CommonsCSVReportGenerator implements ConvertMonthlyReportToCSV {
                 try {
                     csvPrinter.printRecord(report.getOrgName(), report.getTeamName(), report.getuserName(),
                             date, report.getreviewedPRs(), report.getexecutedPRs(), report.getcommentAvgLength(),
-                            report.getTotalLines(), report.getLinesAdded(), report.getLinesDeleted());
+                            report.getCommitTotal(), report.getTotalLines(), report.getLinesAdded(), report.getLinesDeleted());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

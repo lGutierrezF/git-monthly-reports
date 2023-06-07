@@ -27,6 +27,7 @@ public class CreateOrgMonthlyReport {
                 var totalCommitStats = getTotalCommitStats(member.getCommits());
                 gitOrganization.getMonthlyReports().add(new GitUserMonthlyReport(orgName,teamName,
                         memberName,date,reviewedPRs,executedPRs,commentAvgLength,
+                        totalCommitStats.get(3), //Total commits
                         totalCommitStats.get(0), // Total lines
                         totalCommitStats.get(1), // Total additions
                         totalCommitStats.get(2))); //Total deletions
@@ -56,6 +57,7 @@ public class CreateOrgMonthlyReport {
         lineStats.add(total);
         lineStats.add(additions);
         lineStats.add(deletions);
+        lineStats.add(commits.size());
         return lineStats;
     }
 
