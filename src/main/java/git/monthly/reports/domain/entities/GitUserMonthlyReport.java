@@ -9,12 +9,13 @@ public class GitUserMonthlyReport {
     private int reviewedPRs;
     private int executedPRs;
     private float commentAvgLength;
+    private int commitTotal;
     private int totalLines;
     private int linesAdded;
     private int linesDeleted;
 
     public GitUserMonthlyReport(String orgName, String teamName, String userName, String date, int reviewedPRs,
-                                int executedPRs, float commentAvgLength, int totalLines,
+                                int executedPRs, float commentAvgLength, int commitTotal, int totalLines,
                                 int linesAdded, int linesDeleted) {
         this.orgName = orgName;
         this.teamName = teamName;
@@ -23,6 +24,7 @@ public class GitUserMonthlyReport {
         this.reviewedPRs = reviewedPRs;
         this.executedPRs = executedPRs;
         this.commentAvgLength = commentAvgLength;
+        this.commitTotal = commitTotal;
         this.totalLines = totalLines;
         this.linesAdded = linesAdded;
         this.linesDeleted = linesDeleted;
@@ -54,6 +56,10 @@ public class GitUserMonthlyReport {
 
     public float getcommentAvgLength() {
         return commentAvgLength;
+    }
+
+    public int getCommitTotal() {
+        return commitTotal;
     }
 
     public int getTotalLines() {

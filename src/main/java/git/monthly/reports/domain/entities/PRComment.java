@@ -1,11 +1,9 @@
 package git.monthly.reports.domain.entities;
 
 public class PRComment {
-    private String id;
     private String commentBody;
 
-    public PRComment(String id, String commentBody) {
-        this.id = id;
+    public PRComment(String commentBody) {
         this.commentBody = commentBody;
     }
 

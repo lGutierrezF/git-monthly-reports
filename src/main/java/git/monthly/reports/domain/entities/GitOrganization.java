@@ -1,11 +1,46 @@
 package git.monthly.reports.domain.entities;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class GitOrganization {
+public final class  GitOrganization {
     private String orgName;
     private List<String> orgRepoNames;
-    private Map<String,GitTeam> orgTeams;
-    private Map<String,GitUserMonthlyReport> monthlyReports;
+    private List<GitTeam> orgTeams;
+    private List<GitUserMonthlyReport> monthlyReports;
+
+    public GitOrganization(String orgName) {
+        this.orgRepoNames = new ArrayList<>();
+        this.orgTeams = new ArrayList<>();
+        this.monthlyReports = new ArrayList<>();
+        this.orgName = orgName;
+    }
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public List<String> getOrgRepoNames() {
+        return orgRepoNames;
+    }
+
+    public void setOrgRepoNames(List<String> orgRepoNames) {
+        this.orgRepoNames = orgRepoNames;
+    }
+
+    public List<GitTeam> getOrgTeams() {
+        return orgTeams;
+    }
+
+    public void setOrgTeams(List<GitTeam> orgTeams) {
+        this.orgTeams = orgTeams;
+    }
+
+    public List<GitUserMonthlyReport> getMonthlyReports() {
+        return monthlyReports;
+    }
+
+    public void setMonthlyReports(List<GitUserMonthlyReport> monthlyReports) {
+        this.monthlyReports = monthlyReports;
+    }
 }

@@ -2,6 +2,6 @@ package git.monthly.reports.domain.interfaces;
 
 import java.util.List;
 
-public interface gitRepoRepository {
+public interface GitRepoRepository {
     List<String> getOrgRepos(String orgName);
 }

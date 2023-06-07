@@ -5,7 +5,7 @@ import git.monthly.reports.domain.entities.GitUser;
 
 import java.util.List;
 
-public interface gitTeamRepository {
+public interface GitTeamRepository {
     List<GitTeam> getOrgTeams(String orgName);
-    List<GitUser> getTeamMembers(String teamName);
+    List<GitUser> getTeamMembers(String orgName, String teamName);
 }

@@ -29,4 +29,21 @@ public final class MonthConstraintsCalculator {
         return monthConstraints;
     }
 
+    public boolean isMonthEnded(String date) {
+        String[] parts = date.split("-");
+
+        String stringYear = parts[0];
+        String stringMonth = parts[1];
+
+        int year = Integer.parseInt(stringYear);
+        int month = Integer.parseInt(stringMonth);
+
+        YearMonth yearMonth = YearMonth.of(year, month);
+        LocalDate endDate = yearMonth.atEndOfMonth();
+
+        LocalDate currentDate = LocalDate.now();
+
+        return endDate.isBefore(currentDate);
+    }
+
 }

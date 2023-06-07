@@ -4,7 +4,7 @@ import git.monthly.reports.domain.entities.PRComment;
 
 import java.util.List;
 
-public interface gitPRRepository {
+public interface GitPRsRepository {
     int getUserExecutedPR(String userName, String date);
     int getUserReviewedPR(String userName, String date);
     List<PRComment> getUserCommentsOnPR(String userName, String date);
