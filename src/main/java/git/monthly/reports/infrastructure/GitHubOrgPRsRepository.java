@@ -37,6 +37,7 @@ public class GitHubOrgPRsRepository implements GitPRsRepository {
 
     @Override
     public int getUserReviewedPR(String userName, String date) {
+        System.out.println("Fetching Organization Pull Request Data");
         return executeGetUserReviewedPR(userName, date);
     }
 

@@ -39,6 +39,10 @@ public class GetOrgCommitsFromRepository {
         for (Commit commit: commits) {
             if (gitUser.getUserName().equals(commit.getAuthor()))
                 gitUser.getCommits().add(commit);
+            //Caso especial
+            else if (gitUser.getUserName().equals("lGutierrezF")&& commit.getAuthor().equals("lauragutierrez")) {
+                gitUser.getCommits().add(commit);
+            }
         }
         return gitUser.getCommits();
     }

@@ -24,11 +24,13 @@ public class MongoDBReportRepository implements OrgMonthlyReportRepository {
 
     @Override
     public List<GitUserMonthlyReport> getOrgMonthlyReport(String orgName, String date) {
+        System.out.println("Fetching Organization Monthly Report Data from MongoDB");
         return mongoClient.findByOrgNameDate(orgName,date);
     }
 
     @Override
     public void saveOrgMonthlyReport(List<GitUserMonthlyReport> orgMonthlyReport) {
+        System.out.println("Saving Organization Monthly Report Data to MongoDB");
         mongoClient.saveAll(orgMonthlyReport);
     }
 }

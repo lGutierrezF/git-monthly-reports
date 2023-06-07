@@ -20,6 +20,7 @@ public class GitHubOrgRepoRepository implements GitRepoRepository {
 
     @Override
     public List<String> getOrgRepos(String orgName) {
+        System.out.println("Fetching Organization Repository Data");
         return executeGetOrgRepoCall(orgName);
     }
 

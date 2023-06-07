@@ -18,6 +18,7 @@ public class GitHubClientConnection implements GitRepositoryClientConnection {
     private static OkHttpClient client;
 
     public GitHubClientConnection() {
+        System.out.println("Creating connection client");
          this.client = new OkHttpClient();
     }
 

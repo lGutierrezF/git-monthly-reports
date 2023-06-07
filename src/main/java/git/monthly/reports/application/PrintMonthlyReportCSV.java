@@ -2,7 +2,6 @@ package git.monthly.reports.application;
 
 import git.monthly.reports.domain.entities.GitOrganization;
 import git.monthly.reports.domain.interfaces.ConvertMonthlyReportToCSV;
-import git.monthly.reports.domain.interfaces.OrgMonthlyReportRepository;
 
 public class PrintMonthlyReportCSV {
     private static GitOrganization gitOrganization;

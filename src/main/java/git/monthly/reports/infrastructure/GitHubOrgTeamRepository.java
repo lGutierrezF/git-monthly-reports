@@ -23,6 +23,7 @@ public class GitHubOrgTeamRepository implements GitTeamRepository {
 
     @Override
     public List<GitTeam> getOrgTeams(String orgName) {
+        System.out.println("Fetching Organization Team Data");
         return executeGetOrgTeamsCall(orgName);
     }
 

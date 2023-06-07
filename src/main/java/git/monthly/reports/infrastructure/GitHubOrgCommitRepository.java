@@ -22,6 +22,7 @@ public class GitHubOrgCommitRepository implements GitCommitRepository {
 
     @Override
     public List<Commit> getOrgCommits(String orgName, String repoName, String date) {
+        System.out.println("Fetching Organization Commit Data");
         return executeGetOrgCommits(orgName, repoName, date);
     }
 
