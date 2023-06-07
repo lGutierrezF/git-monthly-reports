@@ -38,7 +38,7 @@ public class GitHubOrgCommitRepository implements GitCommitRepository {
         for (int i = 0; i < commitsArray.length(); i++) {
             JSONObject repoObject = commitsArray.getJSONObject(i);
             teams.add(new Commit(repoObject.getString("sha"),repoObject.getJSONObject("commit")
-                    .getJSONObject("committer").getString("name")));
+                    .getJSONObject("author").getString("name")));
         }
         return teams;
     }
