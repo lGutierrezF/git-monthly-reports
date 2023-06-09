@@ -69,7 +69,7 @@ public class GitHubOrgPRsRepository implements GitPRsRepository {
 
         for (int i = 0; i < commentsArray.length(); i++) {
             JSONObject repoObject = commentsArray.getJSONObject(i);
-            comments.add(new PRComment(repoObject.getString("body")));
+            comments.add(new PRComment(repoObject.optString("body", "")));
         }
         return comments;
     }
