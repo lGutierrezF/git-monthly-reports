@@ -20,13 +20,13 @@ public class GetGitOrgMonthlyReportsFromRepository {
     }
 
     public List<GitUserMonthlyReport> getOrgMonthlyReport(){
-        if (findOrgMontlyReport()){
+        if (findOrgMonthlyReport()){
             return  orgMonthlyReportRepository.getOrgMonthlyReport(gitOrganization.getOrgName(), date);
         }
         else return new ArrayList<GitUserMonthlyReport>();
     }
 
-    private boolean findOrgMontlyReport(){
+    private boolean findOrgMonthlyReport(){
         return orgMonthlyReportRepository.findOrgMontlyReport(gitOrganization.getOrgName(), date);
     }
 }
