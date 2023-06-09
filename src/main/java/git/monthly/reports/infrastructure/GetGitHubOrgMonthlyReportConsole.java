@@ -35,7 +35,7 @@ public class GetGitHubOrgMonthlyReportConsole implements CommandLineRunner {
         System.out.println("Enter the organization name: ");
         orgName = scanner.nextLine();
 
-        System.out.println("Enter the date (yyyy-MM): ");
+        System.out.println("Enter the date (YYYY-MM): ");
         date = scanner.nextLine();
 
         scanner.close();

@@ -19,14 +19,14 @@ public class GitHubOrgPRsRepository implements GitPRsRepository {
         }
 
     @Override
-    public int getUserExecutedPR(String userName, String date) {
-        return executeGetUserExecutedPR(userName, date);
+    public int getUserExecutedPR(String userName, String orgName, String date) {
+        return executeGetUserExecutedPR(userName, orgName, date);
     }
 
-    private int executeGetUserExecutedPR(String userName, String date){
+    private int executeGetUserExecutedPR(String userName, String orgName, String date){
         int total_count = 0;
         String base = "search/issues";
-        String query = "?q=type\\:pr+author\\:" + userName + "+created\\:" + date;
+        String query = "?q=type:pr+author:" + userName +"+org:" + orgName + "+created:" + date;
         String responseJson = gitHubConnection.execute(base+query);
 
         JSONObject obj = new JSONObject(responseJson);
@@ -36,15 +36,15 @@ public class GitHubOrgPRsRepository implements GitPRsRepository {
     }
 
     @Override
-    public int getUserReviewedPR(String userName, String date) {
+    public int getUserReviewedPR(String userName, String orgName, String date) {
         System.out.println("Fetching Organization Pull Request Data");
-        return executeGetUserReviewedPR(userName, date);
+        return executeGetUserReviewedPR(userName, orgName, date);
     }
 
-    private int executeGetUserReviewedPR(String userName, String date){
+    private int executeGetUserReviewedPR(String userName, String orgName, String date){
         int total_count = 0;
         String base = "search/issues";
-        String query = "?q=type\\:pr+reviewed-by\\:" + userName + "+created\\:" + date;
+        String query = "?q=type:pr+reviewed-by:" + userName +"+org:" + orgName +  "+created:" + date;
         String responseJson = gitHubConnection.execute(base+query);
 
         JSONObject obj = new JSONObject(responseJson);
@@ -54,14 +54,14 @@ public class GitHubOrgPRsRepository implements GitPRsRepository {
     }
 
     @Override
-    public List<PRComment> getUserCommentsOnPR(String userName, String date) {
-        return executeGetUserCommentsOnPR(userName, date);
+    public List<PRComment> getUserCommentsOnPR(String userName, String orgName, String date) {
+        return executeGetUserCommentsOnPR(userName, orgName, date);
     }
 
-    private List<PRComment> executeGetUserCommentsOnPR(String userName, String date){
+    private List<PRComment> executeGetUserCommentsOnPR(String userName, String orgName, String date){
         List<PRComment> comments = new ArrayList<>();
         String base = "search/issues";
-        String query = "?q=type\\:pr+commenter\\:" + userName + "+created\\:" + date;
+        String query = "?q=type:pr+commenter:" + userName +"+org:" + orgName +  "+created:" + date;
         String responseJson = gitHubConnection.execute(base+query);
 
         JSONObject jsonObject = new JSONObject(responseJson);

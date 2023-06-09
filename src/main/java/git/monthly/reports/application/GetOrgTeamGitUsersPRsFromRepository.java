@@ -29,22 +29,22 @@ public class GetOrgTeamGitUsersPRsFromRepository {
 
     private GitTeam getOrgTeamGitUsersPR(GitTeam gitTeam){
         for (GitUser gitUser: gitTeam.getTeamMembers()) {
-            gitUser.setExecutedPR(getUserExecutedPR(gitUser.getUserName(),date));
-            gitUser.setReviwedPR(getUserReviewedPR(gitUser.getUserName(),date));
-            gitUser.setComments(getUserCommentsOnPR(gitUser.getUserName(),date));
+            gitUser.setExecutedPR(getUserExecutedPR(gitUser.getUserName(),gitOrganization.getOrgName(),date));
+            gitUser.setReviwedPR(getUserReviewedPR(gitUser.getUserName(),gitOrganization.getOrgName(),date));
+            gitUser.setComments(getUserCommentsOnPR(gitUser.getUserName(),gitOrganization.getOrgName(),date));
         }
         return gitTeam;
     }
 
-    private int getUserExecutedPR(String userName, String date){
-        return gitPRsRepository.getUserExecutedPR(userName, date);
+    private int getUserExecutedPR(String userName, String orgName,String date){
+        return gitPRsRepository.getUserExecutedPR(userName, orgName, date);
     }
 
-    private int getUserReviewedPR(String userName, String date){
-        return gitPRsRepository.getUserReviewedPR(userName, date);
+    private int getUserReviewedPR(String userName, String orgName, String date){
+        return gitPRsRepository.getUserReviewedPR(userName, orgName, date);
     }
 
-    private List<PRComment> getUserCommentsOnPR(String userName, String date){
-        return gitPRsRepository.getUserCommentsOnPR(userName, date);
+    private List<PRComment> getUserCommentsOnPR(String userName, String orgName, String date){
+        return gitPRsRepository.getUserCommentsOnPR(userName, orgName, date);
     }
 }
