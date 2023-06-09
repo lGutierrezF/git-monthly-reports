@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>git-monthly-reports</groupId>
-	<artifactId>springboot</artifactId>
+	<artifactId>git-monthly-reports</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>springboot</name>
 	<description>Project to get monthly reports of users of a git organization. If they aren&apos;t locally stored, it will get them from an API.</description>
