@@ -26,20 +26,40 @@ public class GitHubOrgCommitRepository implements GitCommitRepository {
         return executeGetOrgCommits(orgName, repoName, date);
     }
 
-    private List<Commit> executeGetOrgCommits(String orgName, String repoName, String date){
+    private List<Commit> executeGetOrgCommits(String orgName, String repoName, String date) {
         List<Commit> teams = new ArrayList<>();
         var monthDates = new MonthConstraintsCalculator().execute(date);
-        String query = "repos/"+orgName+"/"+repoName+"/commits?since=" +  monthDates.get(0).toString()
-                + "&until=" +  monthDates.get(1).toString();
+        String query = "repos/" + orgName + "/" + repoName + "/commits?since=" + monthDates.get(0).toString()
+                + "&until=" + monthDates.get(1).toString();
         String responseJson = gitHubConnection.execute(query);
 
         JSONArray commitsArray = new JSONArray(responseJson);
 
         for (int i = 0; i < commitsArray.length(); i++) {
             JSONObject repoObject = commitsArray.getJSONObject(i);
-            teams.add(new Commit(repoObject.getString("sha"),repoObject.getJSONObject("author").getString("login")));
+
+            String authorLogin = getAuthorInformation(repoObject);
+
+            teams.add(new Commit(repoObject.getString("sha"), authorLogin));
         }
         return teams;
+    }
+
+    /*
+    If the user didn't configure a github user in the git configuration
+    the author object in the commit response can be null,
+    in those cases, it will alternatively try to identify the user with the configured name in the git profile.
+    */
+    private static String getAuthorInformation(JSONObject repoObject) {
+        JSONObject authorObject = repoObject.optJSONObject("author");
+        String authorLogin;
+
+        if (authorObject != null) {
+            authorLogin = authorObject.getString("login");
+        } else {
+            authorLogin = repoObject.getJSONObject("commit").getJSONObject("author").getString("name");
+        }
+        return authorLogin;
     }
 
     @Override
