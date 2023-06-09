@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Scanner;
+
 @SpringBootApplication
 public class GetGitHubOrgMonthlyReportConsole implements CommandLineRunner {
     @Autowired
@@ -14,6 +16,8 @@ public class GetGitHubOrgMonthlyReportConsole implements CommandLineRunner {
     private static GitHubClientConnection gitHubConnection;
     private static GitOrganization organization;
     private static String date;
+    private static String orgName;
+
 
     private static  GitHubOrgRepoRepository gitHubOrgRepoRepository = new GitHubOrgRepoRepository(gitHubConnection);
     private static GitHubOrgTeamRepository gitHubOrgTeamRepository = new GitHubOrgTeamRepository(gitHubConnection);
@@ -25,9 +29,27 @@ public class GetGitHubOrgMonthlyReportConsole implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the organization name: ");
+        orgName = scanner.nextLine();
+
+        System.out.println("Enter the date (yyyy-MM): ");
+        date = scanner.nextLine();
+
+        scanner.close();
+
+        if (orgName.isEmpty() || date.isEmpty()){
+            System.out.println("Using default values");
+            date = "2023-06";
+            orgName = "github-stats-test";
+        }
+
+
         gitHubConnection = new GitHubClientConnection();
-        organization = new GitOrganization("github-stats-test");
-        date = "2023-06";
+        organization = new GitOrganization(orgName);
+
         var reports = new GetGitOrgMonthlyReportsFromRepository(organization,mongoDBReportRepository,date).getOrgMonthlyReport();
         if (reports.isEmpty()) {
             fetchOrganizationMonthlyReportFromAPI();
