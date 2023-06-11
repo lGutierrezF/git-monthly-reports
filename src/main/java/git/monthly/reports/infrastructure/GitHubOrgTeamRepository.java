@@ -2,6 +2,7 @@ package git.monthly.reports.infrastructure;
 
 import git.monthly.reports.domain.entities.GitTeam;
 import git.monthly.reports.domain.entities.GitUser;
+import git.monthly.reports.domain.exceptions.EmptyOrganizationTeamException;
 import git.monthly.reports.domain.exceptions.GitClientConnectionException;
 import git.monthly.reports.domain.interfaces.GitRepositoryClientConnection;
 import git.monthly.reports.domain.interfaces.GitTeamRepository;
@@ -23,12 +24,12 @@ public class GitHubOrgTeamRepository implements GitTeamRepository {
     }
 
     @Override
-    public List<GitTeam> getOrgTeams(String orgName) throws GitClientConnectionException {
+    public List<GitTeam> getOrgTeams(String orgName) throws GitClientConnectionException, EmptyOrganizationTeamException {
         System.out.println("Fetching Organization Team Data");
         return executeGetOrgTeamsCall(orgName);
     }
 
-    private List<GitTeam> executeGetOrgTeamsCall(String orgName) throws GitClientConnectionException {
+    private List<GitTeam> executeGetOrgTeamsCall(String orgName) throws GitClientConnectionException, EmptyOrganizationTeamException {
         List<GitTeam> teams = new ArrayList<>();
         String query = "orgs/"+orgName+"/teams";
         String responseJson = gitHubConnection.execute(query);
@@ -36,18 +37,23 @@ public class GitHubOrgTeamRepository implements GitTeamRepository {
         JSONArray teamsArray = new JSONArray(responseJson);
 
         for (int i = 0; i < teamsArray.length(); i++) {
-            JSONObject repoObject = teamsArray.getJSONObject(i);
-            teams.add(new GitTeam(repoObject.getString("name")));
+            JSONObject teamObject = teamsArray.getJSONObject(i);
+            try {
+                var teamName = teamObject.getString("name");
+                teams.add(new GitTeam(teamName));
+            } catch (Exception e){
+                throw new EmptyOrganizationTeamException("Organization does not have any teams.");
+            }
         }
         return teams;
     }
 
     @Override
-    public List<GitUser> getTeamMembers(String orgName, String teamName) throws GitClientConnectionException {
+    public List<GitUser> getTeamMembers(String orgName, String teamName) throws GitClientConnectionException, EmptyOrganizationTeamException {
         return executeGetTeamMembers(orgName, teamName);
     }
 
-    private List<GitUser> executeGetTeamMembers(String orgName, String teamName) throws GitClientConnectionException {
+    private List<GitUser> executeGetTeamMembers(String orgName, String teamName) throws GitClientConnectionException, EmptyOrganizationTeamException {
         List<GitUser> teamMembers = new ArrayList<>();
         String query = "orgs/"+orgName+"/teams/"+teamName+"/members";
         String responseJson = gitHubConnection.execute(query);
@@ -55,8 +61,13 @@ public class GitHubOrgTeamRepository implements GitTeamRepository {
         JSONArray teamsArray = new JSONArray(responseJson);
 
         for (int i = 0; i < teamsArray.length(); i++) {
-            JSONObject repoObject = teamsArray.getJSONObject(i);
-            teamMembers.add(new GitUser(repoObject.getString("login")));
+            JSONObject teamMemberObject = teamsArray.getJSONObject(i);
+            try {
+                var teamMemberLogin = teamMemberObject.getString("login");
+                teamMembers.add(new GitUser(teamMemberLogin));
+            } catch (Exception e){
+                throw new EmptyOrganizationTeamException("Organization team does not have any team members.");
+            }
         }
         return teamMembers;
     }
