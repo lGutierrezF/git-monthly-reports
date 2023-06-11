@@ -3,6 +3,7 @@ package git.monthly.reports.infrastructure;
 import git.monthly.reports.application.*;
 import git.monthly.reports.domain.entities.GitOrganization;
 import git.monthly.reports.domain.exceptions.GitClientConnectionException;
+import git.monthly.reports.domain.exceptions.ReportClientConnectionException;
 import git.monthly.reports.domain.services.MonthConstraintsCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -71,7 +72,7 @@ public class GetGitHubOrgMonthlyReportConsole implements CommandLineRunner {
         new PrintMonthlyReportCSV(organization, commonsCSVReportGenerator, date).execute();
     }
 
-    private static void saveOrganizationMonthlyReportToMongoDB() {
+    private static void saveOrganizationMonthlyReportToMongoDB() throws ReportClientConnectionException {
         MonthConstraintsCalculator calculator = new MonthConstraintsCalculator();
         if (calculator.isMonthEnded(date)){
         new SaveGitOrgMonthlyReports(organization, mongoDBReportRepository).execute();
