@@ -6,7 +6,6 @@ import git.monthly.reports.domain.exceptions.ReportClientConnectionException;
 import git.monthly.reports.domain.interfaces.OrgMonthlyReportRepository;
 import org.springframework.stereotype.Repository;
 
-import java.io.IOException;
 import java.util.List;
 
 @Repository
