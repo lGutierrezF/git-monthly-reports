@@ -1,5 +1,6 @@
 package git.monthly.reports.infrastructure;
 
+import git.monthly.reports.domain.exceptions.GitClientConnectionException;
 import git.monthly.reports.domain.interfaces.GitRepoRepository;
 import git.monthly.reports.domain.interfaces.GitRepositoryClientConnection;
 import org.json.JSONArray;
@@ -19,12 +20,12 @@ public class GitHubOrgRepoRepository implements GitRepoRepository {
     }
 
     @Override
-    public List<String> getOrgRepos(String orgName) {
+    public List<String> getOrgRepos(String orgName) throws GitClientConnectionException {
         System.out.println("Fetching Organization Repository Data");
         return executeGetOrgRepoCall(orgName);
     }
 
-    private List<String> executeGetOrgRepoCall(String orgName){
+    private List<String> executeGetOrgRepoCall(String orgName) throws GitClientConnectionException {
         List<String> repos = new ArrayList<>();
         String query = "orgs/"+orgName+"/repos";
         String responseJson = gitHubConnection.execute(query);

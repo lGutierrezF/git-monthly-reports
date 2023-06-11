@@ -3,6 +3,7 @@ package git.monthly.reports.application;
 import git.monthly.reports.domain.entities.GitOrganization;
 import git.monthly.reports.domain.entities.GitTeam;
 import git.monthly.reports.domain.entities.GitUser;
+import git.monthly.reports.domain.exceptions.GitClientConnectionException;
 import git.monthly.reports.domain.interfaces.GitTeamRepository;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class GetOrgTeamsFromRepository {
         this.gitOrganization = gitOrganization;
     }
 
-    public List<GitTeam> execute(){
+    public List<GitTeam> execute() throws GitClientConnectionException {
         gitOrganization.setOrgTeams(getOrgTeamsNames(gitOrganization.getOrgName()));
         for (GitTeam team: gitOrganization.getOrgTeams()) {
             team.setTeamMembers(getTeamMembers(gitOrganization.getOrgName(),team));
@@ -24,12 +25,12 @@ public class GetOrgTeamsFromRepository {
         return gitOrganization.getOrgTeams();
     }
 
-    private List<GitTeam> getOrgTeamsNames(String orgName){
+    private List<GitTeam> getOrgTeamsNames(String orgName) throws GitClientConnectionException {
         gitOrganization.setOrgTeams(gitTeamRepository.getOrgTeams(orgName));
         return gitOrganization.getOrgTeams();
     }
 
-    private List<GitUser> getTeamMembers(String orgName, GitTeam team){
+    private List<GitUser> getTeamMembers(String orgName, GitTeam team) throws GitClientConnectionException {
         return  gitTeamRepository.getTeamMembers(orgName, team.getTeamName());
     }
 }

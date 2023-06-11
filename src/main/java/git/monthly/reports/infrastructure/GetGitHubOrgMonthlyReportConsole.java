@@ -2,6 +2,7 @@ package git.monthly.reports.infrastructure;
 
 import git.monthly.reports.application.*;
 import git.monthly.reports.domain.entities.GitOrganization;
+import git.monthly.reports.domain.exceptions.GitClientConnectionException;
 import git.monthly.reports.domain.services.MonthConstraintsCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -78,7 +79,7 @@ public class GetGitHubOrgMonthlyReportConsole implements CommandLineRunner {
        else System.out.println("Month data is still not final, report won't be saved to MongoDB database.");
     }
 
-    private static void fetchOrganizationMonthlyReportFromAPI() {
+    private static void fetchOrganizationMonthlyReportFromAPI() throws GitClientConnectionException {
         System.out.println("Report not stored locally, fetching data from the API.");
         new GetOrgReposFromRepository(gitHubOrgRepoRepository, organization).execute();
         new GetOrgTeamsFromRepository(gitHubOrgTeamRepository, organization).execute();

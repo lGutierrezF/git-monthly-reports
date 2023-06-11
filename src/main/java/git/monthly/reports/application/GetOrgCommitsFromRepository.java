@@ -1,6 +1,7 @@
 package git.monthly.reports.application;
 
 import git.monthly.reports.domain.entities.*;
+import git.monthly.reports.domain.exceptions.GitClientConnectionException;
 import git.monthly.reports.domain.interfaces.GitCommitRepository;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class GetOrgCommitsFromRepository {
         this.date = date;
     }
 
-    public List<GitTeam> execute(){
+    public List<GitTeam> execute() throws GitClientConnectionException {
         var commits = getOrgReposCommits();
 
         for (GitTeam team: gitOrganization.getOrgTeams()) {
@@ -43,7 +44,7 @@ public class GetOrgCommitsFromRepository {
         return gitUser.getCommits();
     }
 
-    private List<Commit> getOrgReposCommits() {
+    private List<Commit> getOrgReposCommits() throws GitClientConnectionException {
         List<Commit> commits = new ArrayList<>();
         for (String repoName: gitOrganization.getOrgRepoNames()) {
             commits.addAll(getOrgRepoCommits(repoName));
@@ -51,7 +52,7 @@ public class GetOrgCommitsFromRepository {
         return commits;
     }
 
-    private List<Commit> getOrgRepoCommits(String repoName){
+    private List<Commit> getOrgRepoCommits(String repoName) throws GitClientConnectionException {
         var commits = gitCommitRepository.getOrgCommits(gitOrganization.getOrgName(), repoName, date);
         for (Commit commit : commits) {
             commit.setStats(getOrgCommitStats(repoName,commit));
@@ -59,7 +60,7 @@ public class GetOrgCommitsFromRepository {
         return commits;
     }
 
-    private CommitStats getOrgCommitStats(String repoName, Commit commit){
+    private CommitStats getOrgCommitStats(String repoName, Commit commit) throws GitClientConnectionException {
         return gitCommitRepository.getCommitStats(gitOrganization.getOrgName(), repoName, commit.getSHA());
     }
 
