@@ -2,6 +2,7 @@ package git.monthly.reports.application;
 
 import git.monthly.reports.domain.entities.GitOrganization;
 import git.monthly.reports.domain.entities.GitUserMonthlyReport;
+import git.monthly.reports.domain.exceptions.ReportClientConnectionException;
 import git.monthly.reports.domain.interfaces.OrgMonthlyReportRepository;
 
 import java.util.ArrayList;
@@ -19,14 +20,14 @@ public class GetGitOrgMonthlyReportsFromRepository {
         this.date = date;
     }
 
-    public List<GitUserMonthlyReport> getOrgMonthlyReport(){
+    public List<GitUserMonthlyReport> getOrgMonthlyReport() throws ReportClientConnectionException {
         if (findOrgMonthlyReport()){
             return  orgMonthlyReportRepository.getOrgMonthlyReport(gitOrganization.getOrgName(), date);
         }
         else return new ArrayList<GitUserMonthlyReport>();
     }
 
-    private boolean findOrgMonthlyReport(){
+    private boolean findOrgMonthlyReport() throws ReportClientConnectionException {
         return orgMonthlyReportRepository.findOrgMontlyReport(gitOrganization.getOrgName(), date);
     }
 }

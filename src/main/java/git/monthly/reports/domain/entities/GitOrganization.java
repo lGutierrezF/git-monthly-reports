@@ -1,5 +1,7 @@
 package git.monthly.reports.domain.entities;
 
+import git.monthly.reports.domain.exceptions.EmptyOrganizationNameException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +11,18 @@ public final class  GitOrganization {
     private List<GitTeam> orgTeams;
     private List<GitUserMonthlyReport> monthlyReports;
 
-    public GitOrganization(String orgName) {
+    public GitOrganization(String orgName) throws EmptyOrganizationNameException {
+        guardOrgNameIsNotEmpty(orgName);
         this.orgRepoNames = new ArrayList<>();
         this.orgTeams = new ArrayList<>();
         this.monthlyReports = new ArrayList<>();
         this.orgName = orgName;
+    }
+
+    private void guardOrgNameIsNotEmpty(String orgName) throws EmptyOrganizationNameException {
+        if (orgName.isEmpty()) {
+            throw new EmptyOrganizationNameException();
+        }
     }
 
     public String getOrgName() {

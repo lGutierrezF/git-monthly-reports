@@ -1,6 +1,7 @@
 package git.monthly.reports.infrastructure;
 
 import git.monthly.reports.domain.entities.PRComment;
+import git.monthly.reports.domain.exceptions.GitClientConnectionException;
 import git.monthly.reports.domain.interfaces.GitPRsRepository;
 import git.monthly.reports.domain.interfaces.GitRepositoryClientConnection;
 import org.json.JSONArray;
@@ -19,11 +20,11 @@ public class GitHubOrgPRsRepository implements GitPRsRepository {
         }
 
     @Override
-    public int getUserExecutedPR(String userName, String orgName, String date) {
+    public int getUserExecutedPR(String userName, String orgName, String date) throws GitClientConnectionException {
         return executeGetUserExecutedPR(userName, orgName, date);
     }
 
-    private int executeGetUserExecutedPR(String userName, String orgName, String date){
+    private int executeGetUserExecutedPR(String userName, String orgName, String date) throws GitClientConnectionException {
         int total_count = 0;
         String base = "search/issues";
         String query = "?q=type:pr+author:" + userName +"+org:" + orgName + "+created:" + date;
@@ -36,12 +37,12 @@ public class GitHubOrgPRsRepository implements GitPRsRepository {
     }
 
     @Override
-    public int getUserReviewedPR(String userName, String orgName, String date) {
+    public int getUserReviewedPR(String userName, String orgName, String date) throws GitClientConnectionException {
         System.out.println("Fetching Organization Pull Request Data");
         return executeGetUserReviewedPR(userName, orgName, date);
     }
 
-    private int executeGetUserReviewedPR(String userName, String orgName, String date){
+    private int executeGetUserReviewedPR(String userName, String orgName, String date) throws GitClientConnectionException {
         int total_count = 0;
         String base = "search/issues";
         String query = "?q=type:pr+reviewed-by:" + userName +"+org:" + orgName +  "+created:" + date;
@@ -54,11 +55,11 @@ public class GitHubOrgPRsRepository implements GitPRsRepository {
     }
 
     @Override
-    public List<PRComment> getUserCommentsOnPR(String userName, String orgName, String date) {
+    public List<PRComment> getUserCommentsOnPR(String userName, String orgName, String date) throws GitClientConnectionException {
         return executeGetUserCommentsOnPR(userName, orgName, date);
     }
 
-    private List<PRComment> executeGetUserCommentsOnPR(String userName, String orgName, String date){
+    private List<PRComment> executeGetUserCommentsOnPR(String userName, String orgName, String date) throws GitClientConnectionException {
         List<PRComment> comments = new ArrayList<>();
         String base = "search/issues";
         String query = "?q=type:pr+commenter:" + userName +"+org:" + orgName +  "+created:" + date;

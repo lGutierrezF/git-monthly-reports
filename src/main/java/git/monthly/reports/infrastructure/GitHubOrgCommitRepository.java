@@ -2,6 +2,7 @@ package git.monthly.reports.infrastructure;
 
 import git.monthly.reports.domain.entities.Commit;
 import git.monthly.reports.domain.entities.CommitStats;
+import git.monthly.reports.domain.exceptions.GitClientConnectionException;
 import git.monthly.reports.domain.interfaces.GitCommitRepository;
 import git.monthly.reports.domain.interfaces.GitRepositoryClientConnection;
 import git.monthly.reports.domain.services.MonthConstraintsCalculator;
@@ -21,12 +22,12 @@ public class GitHubOrgCommitRepository implements GitCommitRepository {
     }
 
     @Override
-    public List<Commit> getOrgCommits(String orgName, String repoName, String date) {
+    public List<Commit> getOrgCommits(String orgName, String repoName, String date) throws GitClientConnectionException {
         System.out.println("Fetching Organization Commit Data");
         return executeGetOrgCommits(orgName, repoName, date);
     }
 
-    private List<Commit> executeGetOrgCommits(String orgName, String repoName, String date) {
+    private List<Commit> executeGetOrgCommits(String orgName, String repoName, String date) throws GitClientConnectionException {
         List<Commit> teams = new ArrayList<>();
         var monthDates = new MonthConstraintsCalculator().execute(date);
         String query = "repos/" + orgName + "/" + repoName + "/commits?since=" + monthDates.get(0).toString()
@@ -46,7 +47,7 @@ public class GitHubOrgCommitRepository implements GitCommitRepository {
     }
 
     /*
-    If the user didn't configure a github user in the git configuration
+    If the user didn't configure a GitHub user in the git configuration
     the author object in the commit response can be null,
     in those cases, it will alternatively try to identify the user with the configured name in the git profile.
     */
@@ -63,11 +64,11 @@ public class GitHubOrgCommitRepository implements GitCommitRepository {
     }
 
     @Override
-    public CommitStats getCommitStats(String orgName, String repoName, String SHA) {
+    public CommitStats getCommitStats(String orgName, String repoName, String SHA) throws GitClientConnectionException {
         return executeGetCommitStats(orgName, repoName, SHA);
     }
 
-    private CommitStats executeGetCommitStats(String orgName, String repoName, String SHA){
+    private CommitStats executeGetCommitStats(String orgName, String repoName, String SHA) throws GitClientConnectionException {
         List<Commit> teams = new ArrayList<>();
         String query = "repos/"+orgName+"/"+repoName+"/commits/"+SHA;
         String responseJson = gitHubConnection.execute(query);

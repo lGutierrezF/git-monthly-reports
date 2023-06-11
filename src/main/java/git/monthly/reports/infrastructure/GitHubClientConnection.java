@@ -1,5 +1,6 @@
 package git.monthly.reports.infrastructure;
 
+import git.monthly.reports.domain.exceptions.GitClientConnectionException;
 import git.monthly.reports.domain.interfaces.GitRepositoryClientConnection;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -23,7 +24,7 @@ public class GitHubClientConnection implements GitRepositoryClientConnection {
     }
 
     @Override
-    public String execute(String query) {
+    public String execute(String query) throws GitClientConnectionException {
         Request request = new Request.Builder()
                 .url(API_BASE_URL+query)
                 .header("Authorization", accessToken)
@@ -40,7 +41,7 @@ public class GitHubClientConnection implements GitRepositoryClientConnection {
                 System.out.println("Request failed with status code: " + response.code());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new GitClientConnectionException("An error has occurred connecting to the GitHub client.");
         }
         return null;
     }
