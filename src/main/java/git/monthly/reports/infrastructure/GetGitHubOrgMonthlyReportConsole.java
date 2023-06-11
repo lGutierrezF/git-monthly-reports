@@ -48,12 +48,11 @@ public class GetGitHubOrgMonthlyReportConsole implements CommandLineRunner {
             orgName = "github-stats-test";
         }
 
-
-        gitHubConnection = new GitHubClientConnection();
         organization = new GitOrganization(orgName);
 
         var reports = new GetGitOrgMonthlyReportsFromRepository(organization,mongoDBReportRepository,date).getOrgMonthlyReport();
         if (reports.isEmpty()) {
+            gitHubConnection = new GitHubClientConnection();
             fetchOrganizationMonthlyReportFromAPI();
             saveOrganizationMonthlyReportToMongoDB();
             saveOrganizationMonthlyReportCSV();
@@ -75,17 +74,26 @@ public class GetGitHubOrgMonthlyReportConsole implements CommandLineRunner {
     private static void saveOrganizationMonthlyReportToMongoDB() throws ReportClientConnectionException {
         MonthConstraintsCalculator calculator = new MonthConstraintsCalculator();
         if (calculator.isMonthEnded(date)){
-        new SaveGitOrgMonthlyReports(organization, mongoDBReportRepository).execute();
+            try {
+                new SaveGitOrgMonthlyReports(organization, mongoDBReportRepository).execute();
+            } catch (Exception e){
+                throw new ReportClientConnectionException(e.getMessage());
+            }
         }
        else System.out.println("Month data is still not final, report won't be saved to MongoDB database.");
     }
 
     private static void fetchOrganizationMonthlyReportFromAPI() throws GitClientConnectionException {
         System.out.println("Report not stored locally, fetching data from the API.");
-        new GetOrgReposFromRepository(gitHubOrgRepoRepository, organization).execute();
-        new GetOrgTeamsFromRepository(gitHubOrgTeamRepository, organization).execute();
-        new GetOrgTeamGitUsersPRsFromRepository(gitHubOrgPRsRepository, organization, date).execute();
-        new GetOrgCommitsFromRepository(gitHubOrgCommitRepository, organization, date).execute();
-        new CreateOrgMonthlyReport(organization, date).execute();
+        try {
+            new GetOrgReposFromRepository(gitHubOrgRepoRepository, organization).execute();
+            new GetOrgTeamsFromRepository(gitHubOrgTeamRepository, organization).execute();
+            new GetOrgTeamGitUsersPRsFromRepository(gitHubOrgPRsRepository, organization, date).execute();
+            new GetOrgCommitsFromRepository(gitHubOrgCommitRepository, organization, date).execute();
+            new CreateOrgMonthlyReport(organization, date).execute();
+        } catch (Exception e) {
+            throw new GitClientConnectionException(e.getMessage());
+        }
+
     }
 }
