@@ -2,7 +2,7 @@
 ## Prerequisites
 - Docker
 - Maven
-- CURL
+- Java 17
 ## Stack used
 - Java 17
 - SpringBoot 3
